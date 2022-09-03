@@ -18,7 +18,7 @@ const Home = () => {
   const fetchNFTs = async () => {
     let nfts;
     console.log('fetching nfts');
-    const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${process.env.API_KEY}/getNFTs/`;
+    const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_API_KEY}/getNFTs/`;
 
     if (!collection.length) {
       var requestOptions = {
@@ -42,6 +42,12 @@ const Home = () => {
 
   const fetchNFTsForCollection = async (caller) => {
     if (collection.length) {
+      // if (caller === 'fetch') {
+      //   startTokenArray.push(
+      //     '0x0000000000000000000000000000000000000000000000000000000000000000'
+      //   );
+      // setTokenIndex(tokenIndex + 1);
+      // }
       if (caller === 'prev') {
         setTokenIndex(tokenIndex - 1);
       }
@@ -52,7 +58,7 @@ const Home = () => {
       var requestOptions = {
         method: 'GET',
       };
-      const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${process.env.API_KEY}/getNFTsForCollection/`;
+      const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_API_KEY}/getNFTsForCollection/`;
       // const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${'true'}`;
       const fetchURL = `${baseURL}?contractAddress=${collection}&startToken=${
         startTokenArray[tokenIndex]
@@ -64,11 +70,11 @@ const Home = () => {
         console.log('NFTs in collection:', nfts);
         setNFTs(nfts.nfts);
         setShowNav(true);
-        if (tokenIndex + 1 == startTokenArray.length) {
-          startTokenArray.push(nfts.nextToken);
-        }
-        console.log('startTokenArray: ' + startTokenArray);
-        console.log('tokenIndex: ' + tokenIndex);
+        startTokenArray.push(nfts.nextToken);
+
+        // if (tokenIndex + 1 >= startTokenArray.length) {
+        //   startTokenArray.push(nfts.nextToken);
+        // }
       }
     }
   };
